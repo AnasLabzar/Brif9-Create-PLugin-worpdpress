@@ -54,7 +54,7 @@ Yoast SEO
  # Create Plugin Copyright
  
  ## PHP / HTML / CSS
- 1 - create plugin et afficher
+ 1. create plugin et afficher
  
  ```php
 <?php
@@ -67,5 +67,60 @@ License: GPLv2 or later
 Text Domain: AL Copyright 
 */
 ```
- 2 - create "activate" and "delete"
- 3 - create setting plugin 
+
+ 2. Exit if accessed directly
+ 
+ ```php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+ ```
+ 
+ 3. Add management page & parameters details
+ 
+  ```php
+  
+add_action('admin_menu', 'my_admin_menu');
+
+function my_admin_menu () {
+    
+	 //parameters details
+	 //add_management_page($page_title, $menu_title, $capability,$menu_slug, $function);
+    
+	 //add a new setting page udner setting menu
+     //add_management_page('Description', 'Description', 'manage_options',__FILE__,'Description_admin_page');
+     //add new menu and its sub menu 
+    add_menu_page('Description title', 'AL Copyright ', 'manage_options','Description_page', 'Description_admin_page','dashicons-admin-home');
+    add_submenu_page( 'Description_page', 'Page title', 'Settings','manage_options', 'Settings', 'mt_settings_page');
+}
+ ```
+ 
+ 4. Create Description page
+ 
+  ```php
+  
+function Description_admin_page () {
+    
+  echo '<div class="wrap">
+  <h1>Hello!</h1>
+  <p>it is a plugin with two submenus. A page for the general description of my plugin.Configuration page an input text field, textarea for the description,
+     an option list and a save button
+  </p>
+</div>';
+}
+ ```
+ 
+ 5. Displays the page content for the Test Settings submenu
+ 
+  ```php
+ // mt_settings_page()
+function mt_settings_page() {
+    echo "<h2>" . __( 'Settings Configurations', 'menu-test' ) . "</h2>";
+	include_once('setting_page.php');
+}
+ ```
+ 
+ 6. Settings plugin (private)
+
+## Thank you
+ 
